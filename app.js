@@ -4,9 +4,14 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+// Preparar DB
+var mongo = require('mongodb');
+var monk = require('monk');
+var db = monk('localhost:27017/')
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var tabla = require('./routes/tabla');
 
 
 var app = express();
@@ -25,6 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/tabla',tabla)
 
 
 // catch 404 and forward to error handler
