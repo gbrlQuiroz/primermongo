@@ -1,4 +1,18 @@
 extends layout
 
 block content
-  h1 hola Express
+  .main.container
+    .row
+      .col-md-6.col-md-offset-3
+        form(method='POST' action='/bienvenido')
+          .form-group
+            label(for='txtUsuario') Usuario:
+            input#txtUsuario.form-control(type='email', placeholder='Usuario registrado', name='txtUsuario')
+          .form-group
+            label(for='txtClave') Contraseña:
+            input#txtClave.form-control(type='password', placeholder='La clave para entrar', name='txtClave')
+          br 
+          button.btn.btn-primary(type='submit') Enviar
+          
+              
+  

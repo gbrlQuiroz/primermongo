@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
     var db = req.db;
     var refacciones = db.get('refacciones');
-    refacciones.find({},'-_id',function(e,docs){
+    refacciones.find({clave:3},'-_id',function(e,docs){
         res.render('tabla',{datos:docs});
     }); 
 

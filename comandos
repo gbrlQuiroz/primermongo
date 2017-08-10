@@ -1,0 +1,41 @@
+npm install -g gulp
+npm install --save-dev gulp
+npm install --save-dev gulp-concat
+npm install --save-dev gulp-uglify
+npm install --save-dev gulp-minify-css
+npm install --save-dev gulp-inject
+
+gulp minify-js
+gulp minify-css
+gulp index
+
+reemplazar /dist por .
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
