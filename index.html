@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Geolocalización</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- inject:css -->
+    <link rel="stylesheet" href="./css/estilo.css">
+    <!-- endinject -->
+
+</head>
+
+<body ng-app="app" ng-controller="appCtrl">
+
+    <div class="container-fluid modif">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <h3 class="nav navbar-text navbar-right text-right"><strong>Geolocalización de Obra Pública</strong></h3>
+                    <a class="navbar-brand" href="#">
+                        <img alt="Brand" src="./img/logo.png">
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- modif -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 hidden-sm hidden-xs">
+                <!-- lista de obras -->
+                <div class="container-fluid">
+                    <input placeholder="[Municipio] [algún otro criterio] " class="form-control" ng-model="searchKeyword" autofocus />
+                    <br/>
+                    <!--btn-block btn-group-justified-->
+                    <div class="span3 btn btn-success  btn-xs" ng-repeat="a in cities | multiple: searchKeyword" ng-click="gotoLocation(a.lat, a.lon,a)"
+                        ng-cloak>
+                        {{a.place}}
+                    </div>
+                </div>
+                <table class="table table-striped table-condensed" ng-cloak>
+                    <tr>
+                        <td class="text-center">Geolocalización</td>
+                    </tr>
+                    <tr>
+                        <td> Lat: {{loc.lat | lat:0}}, Long: {{loc.lon | lon:0}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Clave de Obra</td>
+                    </tr>
+                    <tr>
+                        <td>{{datos.numero}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Nombre de la Obra</td>
+                    </tr>
+                    <tr>
+                        <td>{{datos.desc}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Fotos</td>
+                    </tr>
+                    <tr>
+                        <td>---aqui van las fotos---</td>
+                    </tr>
+                    <!--tr>td.text-center+td-->
+                </table>
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">Detalles de la Obra</h4>
+                            </div>
+                            <div class="modal-body" ng-cloak>
+                                <table class="table table-striped">
+                                    <tr>
+                                        <td class="text-right"><strong>Clave de la obra:</strong></td>
+                                        <td>{{datos.numero}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right"><strong>Nombre de la obra:</strong></td>
+                                        <td>{{datos.desc}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right"><strong>Direccion:</strong></td>
+                                        <td>Av. Tecnológico de Monterrey No. 201, Fracc. Residencial Puerta de Hierro, C.P. 42080.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right"><strong>Localidad:</strong></td>
+                                        <td>Pachuca de Soto, Hidalgo.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right"><strong>Ejercicio:</strong></td>
+                                        <td>2017</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right"><strong>Monto de la obra::</strong></td>
+                                        <td>{{datos.montoApro}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right"><strong>Monto Ejercido:</strong></td>
+                                        <td>{{datos.montoEjer}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right"><strong>Porcentaje:</strong></td>
+                                        <td>96%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right"><strong>Estatus:</strong></td>
+                                        <td>En proceso</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-right"><strong>Fecha de Auditoria:</strong></td>
+                                        <td>Abril 2017</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                                <button type="button" class="btn btn-danger btn-xs" data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <!-- <div class="text-right"> -->
+                <div class="input-append text-center">
+                    <button class="btn btn-success" type="button" ng-click="gotoCurrentLocation()" title="current location">
+              &nbsp;<i class="glyphicon glyphicon-home"></i> ¡Localízame!
+            </button>
+                    <input type="text" ng-model="search" />
+                    <button class="btn btn-success" type="button" ng-click="geoCode()" ng-disabled="search.length == 0" title="search">
+              &nbsp;<i class="glyphicon glyphicon-search"></i> ¡Buscar!
+            </button>
+                </div>
+                <!-- mapa -->
+                <div class="fill">
+                    <app-map style="height:500px;margin:12px;box-shadow:0 3px 25px black;" center="loc" markers="cities">
+                    </app-map>
+                </div>
+                <!-- </div> -->
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDANJXsXTRbKzY7vYSqE7M0NJef2Y4jJaQ"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- inject:js -->
+        <script src="./js/geoLoc.js"></script>
+        <!-- endinject -->
+</body>
+
+</html>
