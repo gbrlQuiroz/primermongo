@@ -1,0 +1,21 @@
+extends layout
+
+block content
+
+  .main.container
+    .row
+      .col-md-6.col-md-offset-3
+        h3.display-4.m-b-2.text-center Alta de usuario
+        form(method='POST' action="/alta")
+          .form-group
+            label(for="txtNombreC") Nombre completo:
+            input#txtNombreC.form-control(type="text", name='txtNombreC', placeholder='Nombre completo')
+          .form-group
+            label(for="txtUsuario") Usuario:
+            input#txtUsuario.form-control(type="text", name='txtUsuario', placeholder='Usuario')
+          .form-group
+            label(for="txtClave") Contraseña:
+            input#txtClave.form-control(type="text", name='txtClave', placeholder='Contraseña')
+          .text-center
+            button.btn.btn-primary(type='submit') OK
+
