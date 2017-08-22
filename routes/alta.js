@@ -9,9 +9,10 @@ router.post('/', function (req, res, next) {
   var db = req.db;
   var usuarios = db.get('usuarios');
   usuarios.count({
-    nombre: req.body.txtUsuario,
+    usuario: req.body.txtUsuario,
     clave: req.body.txtClave
   }).then((cuenta) => {
+    console.log('--->' + cuenta);
     if (cuenta > 0) {
       res.render('alta', {
         mensaje: 'Error!: Datos duplicados'
@@ -20,15 +21,16 @@ router.post('/', function (req, res, next) {
       usuarios.insert({
         clave: req.body.txtClave,
         usuario: req.body.txtUsuario,
-        nomCompleto: re.body.txtNombreC
+        nomCompleto: req.body.txtNombreC
       }).then((error) => {
-        res.render('index');
+        res.redirect('/');
+        //res.render('index');
       }).catch((error) => {
         console.log(error);
       });
     }
   });
-  db.close()
+  //db.close();
 });
 
 module.exports = router;
